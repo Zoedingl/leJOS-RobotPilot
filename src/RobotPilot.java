@@ -248,6 +248,24 @@ public class RobotPilot {
 		motor2.setAcceleration(acceleration);
 	}
 	
+//  When using an EV3GyroSensor, it`s recommended to write a function like this, where pilot is RobotPilot and gyroSensor is EV3GyroSensor: 
+//	
+//	static void rotate(float degrees) {
+//		pilot.stop();
+//		gyroSensor.reset();
+//		if (degrees < 0) {
+//			pilot.startRotate(false);
+//			while (getGyroData() > degrees) {}
+//			pilot.stop();
+//		} else if( degrees > 0) {
+//			pilot.startRotate(true);
+//			while (getGyroData() < degrees) {}
+//			pilot.stop();
+//		}
+//  }
+//	
+//	instead of using the rotate() method
+	
 	public void rotate(float angle) {
 //		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the friction.
 		float friction = 1;
