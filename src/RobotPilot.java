@@ -1,6 +1,5 @@
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
-import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 
 public class RobotPilot {
