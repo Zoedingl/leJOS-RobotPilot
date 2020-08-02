@@ -1,5 +1,6 @@
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
+import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
 
 public class RobotPilot {
@@ -18,7 +19,6 @@ public class RobotPilot {
 		motor2.setSpeed(motor2.getMaxSpeed());
 		this.wheelDiameter = wheelDiameter;
 		this.chassisWidth = chassisWidth;
-
 	}
 
 	public RobotPilot(Port leftMotor, Port rightMotor, float wheelDiameter, float chassisWidth, boolean inverted) {
