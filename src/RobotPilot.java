@@ -64,6 +64,7 @@ public class RobotPilot {
 	}
 	
 	public void forward() {
+//		Starts forward movement of the robot
 		if (inverted) {
 			motor1.backward();
 			motor2.backward();
@@ -75,6 +76,7 @@ public class RobotPilot {
 	}
 	
 	public void backward() {
+//		Starts backward movement of the robot
 		if (inverted) {
 			motor1.forward();
 			motor2.forward();
@@ -86,16 +88,19 @@ public class RobotPilot {
 	}
 	
 	public void stop() {
+//		Stops the robot
 		motor1.stop(true);
 		motor2.stop();
 	}
 	
 	public void flt() {
+//		Floats the motors of the robot
 		motor1.flt(true);
 		motor2.flt();
 	}
 	
 	public void flt(boolean immediateReturn) {
+//		Floats the motors of the robot
 		motor1.flt(true);
 		motor2.flt(immediateReturn);
 	}
@@ -137,6 +142,7 @@ public class RobotPilot {
 	}
 	
 	public void forwardLeftMotor() {
+//		Starts forward movement of the left motor
 		if (inverted) {
 			motor1.backward();
 		} else {
@@ -146,6 +152,7 @@ public class RobotPilot {
 	}
 	
 	public void backwardLeftMotor() {
+//		Starts backward movement of the left motor
 		if (!inverted) {
 			motor1.backward();
 		} else {
@@ -155,6 +162,7 @@ public class RobotPilot {
 	}
 	
 	public void forwardRightMotor() {
+//		Starts forward movement of the right motor
 		if (inverted) {
 			motor2.backward();
 		} else {
@@ -164,6 +172,7 @@ public class RobotPilot {
 	}
 	
 	public void backwardRightMotor() {
+//		Starts backward movement of the right motor
 		if (!inverted) {
 			motor2.backward();
 		} else {
@@ -173,30 +182,37 @@ public class RobotPilot {
 	}
 	
 	public void stopLeftMotor() {
+//		Stops the left motor
 		motor1.stop();
 	}
 	
 	public void stopRightMotor() {
+//		Stops the left motor
 		motor2.stop();
 	}
 	
 	public void floatLeftMotor() {
+//		Floats the left motor
 		motor1.flt();
 	}
 	
 	public void floatLeftMotor(boolean immediateReturn) {
+//		Floats the left motor
 		motor1.flt(immediateReturn);
 	}
 	
 	public void floatRightMotor() {
+//		Floats the right motor
 		motor2.flt();
 	}
 	
 	public void floatRightMotor(boolean immediateReturn) {
+//		Floats the right motor
 		motor2.flt(immediateReturn);
 	}
 	
 	public void close() {
+//		Closes the connections
 		motor1.close();
 		motor2.close();
 	}
@@ -247,7 +263,7 @@ public class RobotPilot {
 		motor2.setAcceleration(acceleration);
 	}
 	
-//  When using an EV3GyroSensor, it`s recommended to write a function like this, where pilot is RobotPilot and gyroSensor is EV3GyroSensor: 
+//  When using an EV3GyroSensor, it`s recommended to write a method like this, where pilot is RobotPilot and gyroSensor is EV3GyroSensor: 
 //	
 //	static void rotate(float degrees) {
 //		pilot.stop();
@@ -266,7 +282,7 @@ public class RobotPilot {
 //	instead of using the rotate() method
 	
 	public void rotate(float angle) {
-//		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the friction.
+//		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the value the robot rotates.
 		float friction = 1;
 //		Set the speed of motors to rotateSpeed
 		motor1.setSpeed(rotateSpeed);
@@ -284,7 +300,7 @@ public class RobotPilot {
 	}
 	
 	public void rotate(float angle, float friction) {
-//		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the friction.
+//		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the value the robot rotates.
 //		Set the speed of motors to rotateSpeed
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
@@ -301,7 +317,7 @@ public class RobotPilot {
 	}
 	
 	public void rotate(float angle, boolean immediateReturn) {
-//		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the friction.
+//		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the value the robot rotates.
 		float friction = 1;
 //		Set the speed of motors to rotateSpeed
 		motor1.setSpeed(rotateSpeed);
@@ -319,7 +335,7 @@ public class RobotPilot {
 	}
 	
 	public void rotate(float angle, float friction, boolean immediateReturn) {
-//		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the friction.
+//		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the value the robot rotates.
 //		Set the speed of motors to rotateSpeed
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
