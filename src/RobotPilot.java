@@ -335,4 +335,13 @@ public class RobotPilot {
 		setSpeed(speed);
 	}
 	
+	public EV3LargeRegulatedMotor getLeftMotor() {
+//		Returns the left EV3LargeRegulatedMotor
+		return motor1;
+	}
+	
+	public EV3LargeRegulatedMotor getRightMotor() {
+//		Returns the right EV3LargeRegulatedMotor
+		return motor2;
+	}
 }
