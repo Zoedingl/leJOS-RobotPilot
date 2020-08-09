@@ -101,7 +101,7 @@ public class RobotPilot {
 	}
 	
 	public void moveLeftMotor(float distance) {
-//		Same as travel(distance) but onlz moves one motor
+//		Same as travel(distance) but only moves one motor
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360));
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -110,7 +110,7 @@ public class RobotPilot {
 	}
 	
 	public void moveLeftMotor(float distance, boolean immediateReturn) {
-//		Same as travel(distance) but onlz moves one motor
+//		Same as travel(distance) but only moves one motor
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360));
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -119,7 +119,7 @@ public class RobotPilot {
 	}
 	
 	public void moveRightMotor(float distance) {
-//		Same as travel(distance) but onlz moves one motor
+//		Same as travel(distance) but only moves one motor
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360));
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -128,7 +128,7 @@ public class RobotPilot {
 	}
 	
 	public void moveRightMotor(float distance, boolean immediateReturn) {
-//		Same as travel(distance) but onlz moves one motor
+//		Same as travel(distance) but only moves one motor
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360));
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
