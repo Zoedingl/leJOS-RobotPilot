@@ -548,13 +548,13 @@ public class RobotPilot {
 //	The travelArc method doesn't work yet
 //	It should not be used, since it only works partly and is totally unusable
 	@Deprecated
-	public void travelArc(float distance, int ratio) throws ArithmeticException {
+	public void travelArc(float distance, int ratio) throws IllegalArgumentException {
 //		if ratio is -1, the robot will rotate left on the spot, if ration is 1, the robot will rotate right on the spot, and if the ration is something between, the robot will arc forward with the given ratio
 //		if ration is 0, the robot will travel forward
 //		distance is the the distance the faster motor will travel
 //		TODO make the travelArc method work
 		if (ratio > 1 || ratio < -1) {
-			throw new ArithmeticException("Invalid ratio");
+			throw new IllegalArgumentException("Invalid ratio");
 		} else {
 			if (ratio == -1) {
 				int degreesToRotate = (int) (distance / ((float) ((Math.PI * wheelDiameter) / 360)));
