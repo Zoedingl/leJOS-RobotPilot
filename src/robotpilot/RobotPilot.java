@@ -2,7 +2,6 @@ package robotpilot;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
-import lejos.utility.Delay;
 
 public class RobotPilot {
 	private EV3LargeRegulatedMotor motor1;
@@ -231,7 +230,6 @@ public class RobotPilot {
 //		If right is true, the robot will rotate right, otherwise he will rotate left
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
-		Delay.msDelay(25);
 		if (right) {
 			if (inverted) {
 				motor1.backward();
@@ -290,10 +288,9 @@ public class RobotPilot {
 //		Set the speed of motors to rotateSpeed
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
-		Delay.msDelay(25);
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
-		float distanceToTravel = (float) (circleValue / (360 / angle));
+		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
 		motor1.rotate((int) (degreesToTravel * friction), true);
@@ -307,10 +304,9 @@ public class RobotPilot {
 //		Set the speed of motors to rotateSpeed
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
-		Delay.msDelay(25);
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
-		float distanceToTravel = (float) (circleValue / (360 / angle));
+		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
 		motor1.rotate((int) (degreesToTravel * friction), true);
@@ -325,10 +321,9 @@ public class RobotPilot {
 //		Set the speed of motors to rotateSpeed
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
-		Delay.msDelay(25);
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
-		float distanceToTravel = (float) (circleValue / (360 / angle));
+		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
 		motor1.rotate((int) (degreesToTravel * friction), true);
@@ -342,10 +337,9 @@ public class RobotPilot {
 //		Set the speed of motors to rotateSpeed
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
-		Delay.msDelay(25);
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
-		float distanceToTravel = (float) (circleValue / (360 / angle));
+		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
 		motor1.rotate((int) (degreesToTravel * friction), true);
