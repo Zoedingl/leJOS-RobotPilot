@@ -55,29 +55,43 @@ public class RobotPilot {
 	}
 
 	public void travel(float distance) {
-//		Starts a forward motion
+//		Makes a forward motion in units which where used when setting the wheelDiameter and the chassisWidth
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360)); 
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
 		}
 		motor1.rotate((int) degreesToTravel, true);
-		motor2.rotate((int) degreesToTravel);
+		motor2.rotate((int) degreesToTravel, true);
+		waitComplete();
 		
 	}
 	
 	public void travel(float distance, boolean immediateReturn) {
-//		Starts a forward motion
+//		Makes a forward motion in units which where used when setting the wheelDiameter and the chassisWidth
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360)); 
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
 		}
 		motor1.rotate((int) degreesToTravel, true);
-		if (immediateReturn) {
-			motor2.rotate((int) degreesToTravel, true);
-		} else {
-			motor2.rotate((int) degreesToTravel);
+		motor2.rotate((int) degreesToTravel, true);
+		if (!immediateReturn) {
+			waitComplete();
 		}
 		
+	}
+	
+	public void travelDegrees(int degrees) {
+		motor1.rotate(degrees, true);
+		motor2.rotate(degrees, true);
+		waitComplete();
+	}
+	
+	public void travelDegrees(int degrees, boolean immediateReturn) {
+		motor1.rotate(degrees, true);
+		motor2.rotate(degrees, true);
+		if (!immediateReturn) {
+			waitComplete();
+		}
 	}
 	
 	public void setRotateSpeed(float rotateSpeed) {
@@ -112,19 +126,25 @@ public class RobotPilot {
 	public void stop() {
 //		Stops the robot
 		motor1.stop(true);
-		motor2.stop();
+		motor2.stop(true);
+		while (isMoving()) {}
 	}
 	
 	public void flt() {
 //		Floats the motors of the robot
 		motor1.flt(true);
-		motor2.flt();
+		motor2.flt(true);
+		while (isMoving()) {}
 	}
 	
 	public void flt(boolean immediateReturn) {
 //		Floats the motors of the robot
 		motor1.flt(true);
-		motor2.flt(immediateReturn);
+		motor2.flt(true);
+		if (!immediateReturn) {
+			while (isMoving()) {}
+		}
+		
 	}
 	
 	public void moveLeftMotor(float distance) {
@@ -213,22 +233,22 @@ public class RobotPilot {
 		motor2.stop();
 	}
 	
-	public void floatLeftMotor() {
+	public void fltLeftMotor() {
 //		Floats the left motor
 		motor1.flt();
 	}
 	
-	public void floatLeftMotor(boolean immediateReturn) {
+	public void fltLeftMotor(boolean immediateReturn) {
 //		Floats the left motor
 		motor1.flt(immediateReturn);
 	}
 	
-	public void floatRightMotor() {
+	public void fltRightMotor() {
 //		Floats the right motor
 		motor2.flt();
 	}
 	
-	public void floatRightMotor(boolean immediateReturn) {
+	public void fltRightMotor(boolean immediateReturn) {
 //		Floats the right motor
 		motor2.flt(immediateReturn);
 	}
@@ -312,10 +332,11 @@ public class RobotPilot {
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
 		double distanceToTravel = circleValue / (360 / angle);
-		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
+		int degreesToTravel = (int) (distanceToTravel / (float) ((Math.PI * wheelDiameter) / 360)); 
 //		Rotate the motors
 		motor1.rotate((int) (degreesToTravel * friction), true);
-		motor2.rotate((int) (-degreesToTravel * friction));
+		motor2.rotate((int) (-degreesToTravel * friction), true);
+		waitComplete();
 //		Set the speed of motors back to speed
 		setSpeed(speed);
 	}
@@ -331,7 +352,9 @@ public class RobotPilot {
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
 		motor1.rotate((int) (degreesToTravel * friction), true);
-		motor2.rotate((int) (-degreesToTravel * friction));
+		motor2.rotate((int) (-degreesToTravel * friction), true);
+		waitComplete();
+		
 //		Set the speed of motors back to speed
 		setSpeed(speed);
 	}
@@ -348,7 +371,11 @@ public class RobotPilot {
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
 		motor1.rotate((int) (degreesToTravel * friction), true);
-		motor2.rotate((int) (-degreesToTravel * friction), immediateReturn);
+		motor2.rotate((int) (-degreesToTravel * friction), true);
+//		if immediate return is false, wait for the motors to complete rotations
+		if (!immediateReturn) {
+			waitComplete();
+		}
 //		Set the speed of motors back to speed
 		setSpeed(speed);
 	}
@@ -364,7 +391,11 @@ public class RobotPilot {
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
 		motor1.rotate((int) (degreesToTravel * friction), true);
-		motor2.rotate((int) (-degreesToTravel * friction), immediateReturn);
+		motor2.rotate((int) (-degreesToTravel * friction), true);
+//		if immediate return is false, wait for the motors to complete rotations
+		if (!immediateReturn) {
+			waitComplete();
+		}
 //		Set the speed of motors back to speed
 		setSpeed(speed);
 	}
@@ -386,7 +417,11 @@ public class RobotPilot {
 	
 	public void waitComplete() {
 //		Waits until the motors stop moving/rotating
-		while (isMoving()) {}
+			motor1.waitComplete();
+			motor2.waitComplete();
+			if (motor1.isMoving()) {
+				motor1.waitComplete();
+			}
 	}
 	
 	public void rotateLeftMotorTo(int angle) {
@@ -486,5 +521,34 @@ public class RobotPilot {
 	public boolean isRightMotorMoving() {
 //		Returns true if the right motor is moving
 		return motor2.isMoving();
+	}
+	
+//	The travelArc method doesn't work yet
+//	It should not be used, since it only works partly and is totally unusable
+	@Deprecated
+	public void travelArc(float distance, int ratio) throws ArithmeticException {
+//		if ratio is -1, the robot will rotate left on the spot, if ration is 1, the robot will rotate right on the spot, and if the ration is something between, the robot will arc forward with the given ratio
+//		if ration is 0, the robot will travel forward
+//		distance is the the distance the faster motor will travel
+//		TODO make the travelArc method work
+		if (ratio > 1 || ratio < -1) {
+			throw new ArithmeticException("Invalid ratio");
+		} else {
+			if (ratio == -1) {
+				int degreesToRotate = (int) (distance / ((float) ((Math.PI * wheelDiameter) / 360)));
+				motor1.rotate(degreesToRotate, true);
+				motor2.rotate(-degreesToRotate);
+				waitComplete();
+			} else if (ratio == 1) {
+				int degreesToRotate = (int) (distance / ((float) ((Math.PI * wheelDiameter) / 360)));
+				motor1.rotate(-degreesToRotate, true);
+				motor2.rotate(degreesToRotate);
+				waitComplete();
+			} else if (ratio == 0) {
+				travel(distance);
+			} else if (ratio > -1 && ratio < 0) {
+				
+			}
+		}
 	}
 }
