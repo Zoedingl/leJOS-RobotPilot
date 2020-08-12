@@ -12,6 +12,8 @@ public class RobotPilot {
 	private boolean inverted = false;
 	private float rotateSpeed = 25f;
 	private float speed;
+	private int acceleration = 0;
+	private int quickAcceleration = 9999;
 	
 	public RobotPilot(Port leftMotor, Port rightMotor, float wheelDiameter, float chassisWidth){
 		this.motor1 = new EV3LargeRegulatedMotor(leftMotor);
@@ -130,6 +132,15 @@ public class RobotPilot {
 		while (isMoving()) {}
 	}
 	
+	public void stop(boolean immediateReturn) {
+//		Stops the robot
+		motor1.stop(true);
+		motor2.stop(true);
+		if (!immediateReturn) {
+			while (isMoving()) {}
+		}
+	}
+	
 	public void flt() {
 //		Floats the motors of the robot
 		motor1.flt(true);
@@ -228,9 +239,19 @@ public class RobotPilot {
 		motor1.stop();
 	}
 	
-	public void stopRightMotor() {
+	public void stopLeftMotor(boolean immediateReturn) {
 //		Stops the left motor
+		motor1.stop(immediateReturn);
+	}
+	
+	public void stopRightMotor() {
+//		Stops the right motor
 		motor2.stop();
+	}
+	
+	public void stopRightMotor(boolean immediateReturn) {
+//		Stops the right motor
+		motor2.stop(immediateReturn);
 	}
 	
 	public void fltLeftMotor() {
@@ -301,6 +322,7 @@ public class RobotPilot {
 	
 	public void setAcceleration(int acceleration) {
 //		Sets the Linear acceleration of the robot
+		this.acceleration = acceleration;
 		motor1.setAcceleration(acceleration);
 		motor2.setAcceleration(acceleration);
 	}
@@ -576,5 +598,45 @@ public class RobotPilot {
 	public void resetRightTachoCount() {
 		motor2.resetTachoCount();
 	}
-			
+	
+	public void quickStop() {
+		int quickAcceleration = 99999;
+		motor1.setAcceleration(quickAcceleration);
+		motor2.setAcceleration(quickAcceleration);
+		stop();
+		setAcceleration(acceleration);
+	}
+	
+	public void quickStop(boolean immediateReturn) {
+		int quickAcceleration = 99999;
+		motor1.setAcceleration(quickAcceleration);
+		motor2.setAcceleration(quickAcceleration);
+		stop(immediateReturn);
+		setAcceleration(acceleration);
+	}
+	
+	public void quickStopLeftMotor() {
+		motor1.setAcceleration(quickAcceleration);
+		stopLeftMotor();
+		setAcceleration(acceleration);
+	}
+	
+	public void quickStopLeftMotor(boolean immediateReturn) {
+		motor1.setAcceleration(quickAcceleration);
+		stopLeftMotor(immediateReturn);
+		setAcceleration(acceleration);
+	}
+	
+	public void quickStopRightMotor() {
+		motor2.setAcceleration(quickAcceleration);
+		stopRightMotor();
+		setAcceleration(acceleration);
+	}
+	
+	public void quickStopRightMotor(boolean immediateReturn) {
+		motor2.setAcceleration(quickAcceleration);
+		stopRightMotor(immediateReturn);
+		setAcceleration(acceleration);
+	}
+				
 }
