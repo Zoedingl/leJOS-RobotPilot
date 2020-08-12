@@ -546,9 +546,35 @@ public class RobotPilot {
 				waitComplete();
 			} else if (ratio == 0) {
 				travel(distance);
-			} else if (ratio > -1 && ratio < 0) {
+			} else if (ratio > -1 && ratio <= -0.5) {
 				
 			}
 		}
 	}
+	
+	public int getLeftTachoCount() {
+		return motor1.getTachoCount();
+	}
+	
+	public int getRightTachoCount() {
+		return motor2.getTachoCount();
+	}
+	
+	public int getTachoCount() {
+		return (int) (((float) (motor1.getTachoCount()) + (float) (motor2.getTachoCount())) / 2);
+	}
+	
+	public void resetTachoCount() {
+		motor1.resetTachoCount();
+		motor2.resetTachoCount();
+	}
+	
+	public void resetLeftTachoCount() {
+		motor1.resetTachoCount();
+	}
+	
+	public void resetRightTachoCount() {
+		motor2.resetTachoCount();
+	}
+			
 }
