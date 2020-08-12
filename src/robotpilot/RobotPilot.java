@@ -1,4 +1,5 @@
 package robotpilot;
+
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
 import lejos.utility.Delay;
@@ -227,6 +228,7 @@ public class RobotPilot {
 	
 	public void startRotate(boolean right) {
 //		Starts a rotating motion
+//		If right is true, the robot will rotate right, otherwise he will rotate left
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
 		Delay.msDelay(25);
