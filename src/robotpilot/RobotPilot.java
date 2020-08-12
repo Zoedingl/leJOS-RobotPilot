@@ -2,6 +2,7 @@ package robotpilot;
 
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.port.Port;
+import lejos.robotics.RegulatedMotor;
 
 public class RobotPilot {
 	private EV3LargeRegulatedMotor motor1;
@@ -32,9 +33,29 @@ public class RobotPilot {
 		this.inverted = inverted;
 
 	}
+	
+	public RobotPilot(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, float wheelDiameter, float chassisWidth){
+		this.motor1 = leftMotor;
+		this.motor2 = rightMotor;
+		motor1.setSpeed(motor1.getMaxSpeed());
+		motor2.setSpeed(motor2.getMaxSpeed());
+		this.wheelDiameter = wheelDiameter;
+		this.chassisWidth = chassisWidth;
+	}
+	
+	public RobotPilot(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, float wheelDiameter, float chassisWidth, boolean inverted){
+//		Set inverted to true if your robot is moving backwards when traveling forward and vice versa
+		this.motor1 = leftMotor;
+		this.motor2 = rightMotor;
+		motor1.setSpeed(motor1.getMaxSpeed());
+		motor2.setSpeed(motor2.getMaxSpeed());
+		this.wheelDiameter = wheelDiameter;
+		this.chassisWidth = chassisWidth;
+		this.inverted = inverted;
+	}
 
 	public void travel(float distance) {
-//		moves the robot forward
+//		Starts a forward motion
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360)); 
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -45,7 +66,7 @@ public class RobotPilot {
 	}
 	
 	public void travel(float distance, boolean immediateReturn) {
-//		moves the robot forward
+//		Starts a forward motion
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360)); 
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -251,7 +272,7 @@ public class RobotPilot {
 	}
 	
 	public float getMaxSpeed() {
-//		returns the maximal speed the robot can achieve
+//		Returns the maximal speed the robot can achieve
 		float mot1speed = motor1.getMaxSpeed();
 		float mot2speed = motor2.getMaxSpeed();
 		return Math.min(mot1speed, mot2speed);
@@ -264,7 +285,7 @@ public class RobotPilot {
 		motor2.setAcceleration(acceleration);
 	}
 	
-//  When using an EV3GyroSensor, it`s recommended to write a method like this, where pilot is RobotPilot and gyroSensor is EV3GyroSensor: 
+//  When using an EV3GyroSensor, it`s recommended to use a method like this, where pilot is RobotPilot and gyroSensor is EV3GyroSensor: 
 //	
 //	static void rotate(float degrees) {
 //		pilot.stop();
@@ -349,12 +370,121 @@ public class RobotPilot {
 	}
 	
 	public EV3LargeRegulatedMotor getLeftMotor() {
-//		Returns the left EV3LargeRegulatedMotor
+//		Returns the left motor as EV3LargeRegulatedMotor
 		return motor1;
 	}
 	
 	public EV3LargeRegulatedMotor getRightMotor() {
-//		Returns the right EV3LargeRegulatedMotor
+//		Returns the right motor as EV3LargeRegulatedMotor
 		return motor2;
+	}
+	
+	public boolean isMoving() {
+//		Returns true if the robot is moving
+		return motor1.isMoving() || motor2.isMoving();
+	}
+	
+	public void waitComplete() {
+//		Waits until the motors stop moving/rotating
+		while (isMoving()) {}
+	}
+	
+	public void rotateLeftMotorTo(int angle) {
+//		Rotates the left motor to a specific angle
+		motor1.rotateTo(angle);
+	}
+	
+	public void rotateLeftMotorTo(int angle, boolean immediateReturn) {
+//		Rotates the left motor to a specific angle
+		motor1.rotateTo(angle, immediateReturn);
+	}
+	
+	public void rotateRightMotorTo(int angle) {
+//		Rotates the right motor to a specific angle
+		motor2.rotateTo(angle);
+	}
+	
+	public void rotateRightMotorTo(int angle, boolean immediateReturn) {
+//		Rotates the right motor to a specific angle
+		motor2.rotateTo(angle, immediateReturn);
+	}
+	
+	public float getSpeed() {
+//		Returns the speed of the RobotPilot
+		return speed;
+	}
+	
+	public float getRotateSpeed() {
+//		Returns the rotate speed of the RobotPilot
+		return rotateSpeed;
+	}
+	
+	public boolean isInverted() {
+//		Returns whether the RobotPilot is inverted or not
+		return inverted;
+	}
+	
+	public void setInverted(boolean inverted) {
+//		Sets the inverted field
+		this.inverted = inverted;
+	}
+	
+	public void synchronizeWith(RegulatedMotor[] syncList) {
+//		Specify a set of motors that should be kept in synchronization with these two
+		motor1.synchronizeWith(syncList);
+		motor2.synchronizeWith(syncList);
+	}
+	
+	public void synchronizeLeftMotorWith(RegulatedMotor[] syncList) {
+//		Specify a set of motors that should be kept in synchronization with this one
+		motor1.synchronizeWith(syncList);
+	}
+	
+	public void synchronizeRightMotorWith(RegulatedMotor[] syncList) {
+//		Specify a set of motors that should be kept in synchronization with this one
+		motor2.synchronizeWith(syncList);
+	}
+	
+	public void startSynchronization() {
+//		Begin a set of synchronized motor operations
+		motor1.startSynchronization();
+		motor2.startSynchronization();
+	}
+	
+	public void startLeftMotorSynchronization() {
+//		Begin a set of synchronized motor operations
+		motor1.startSynchronization();
+	}
+	
+	public void startRightMotorSynchronization() {
+//		Begin a set of synchronized motor operations
+		motor2.startSynchronization();
+	}
+	
+	
+	public void endSynchronization() {
+//		Complete a set of synchronized motor operations
+		motor1.endSynchronization();
+		motor2.endSynchronization();
+	}
+	
+	public void endLeftMotorSynchronization() {
+//		Complete a set of synchronized motor operations
+		motor1.endSynchronization();
+	}
+	
+	public void endRightMotorSynchronization() {
+//		Complete a set of synchronized motor operations
+		motor2.endSynchronization();
+	}
+	
+	public boolean isLeftMotorMoving() {
+//		Returns true if the left motor is moving
+		return motor1.isMoving();
+	}
+	
+	public boolean isRightMotorMoving() {
+//		Returns true if the right motor is moving
+		return motor2.isMoving();
 	}
 }
