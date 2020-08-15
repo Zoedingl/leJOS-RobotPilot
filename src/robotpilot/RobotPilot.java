@@ -58,30 +58,31 @@ public class RobotPilot {
 
 	public void travel(float distance) {
 //		Makes a forward motion in units which where used when setting the wheelDiameter and the chassisWidth
-		motor1.setSpeed(0);
-	    motor2.setSpeed(0);
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360)); 
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
 		}
+		setSpeed(speed);
+		
+		synchronizeMotors();
 		motor1.rotate((int) degreesToTravel, true);
 		motor2.rotate((int) degreesToTravel, true);
-		setSpeed(speed);
+		motor1.endSynchronization();
 		waitComplete();
 		
 	}
 	
 	public void travel(float distance, boolean immediateReturn) {
 //		Makes a forward motion in units which where used when setting the wheelDiameter and the chassisWidth
-		motor1.setSpeed(0);
-	    motor2.setSpeed(0);
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360)); 
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
 		}
+		setSpeed(speed);
+		synchronizeMotors();
 		motor1.rotate((int) degreesToTravel, true);
 		motor2.rotate((int) degreesToTravel, true);
-		setSpeed(speed);
+		motor1.endSynchronization();
 		if (!immediateReturn) {
 			waitComplete();
 		}
@@ -89,20 +90,20 @@ public class RobotPilot {
 	}
 	
 	public void travelDegrees(int degrees) {motor1.setSpeed(0);
-	    motor1.setSpeed(0);
-	    motor2.setSpeed(0);
+	setSpeed(speed);
+	    synchronizeMotors();
 		motor1.rotate(degrees, true);
 		motor2.rotate(degrees, true);
-		setSpeed(speed);
+		motor1.endSynchronization();
 		waitComplete();
 	}
 	
 	public void travelDegrees(int degrees, boolean immediateReturn) {
-		motor1.setSpeed(0);
-		motor2.setSpeed(0);
+		synchronizeMotors();
+		setSpeed(speed);
 		motor1.rotate(degrees, true);
 		motor2.rotate(degrees, true);
-		setSpeed(speed);
+		motor1.endSynchronization();
 		if (!immediateReturn) {
 			waitComplete();
 		}
@@ -117,8 +118,8 @@ public class RobotPilot {
 	
 	public void forward() {
 //		Starts forward movement of the robot
-		motor1.setSpeed(0);
-		motor2.setSpeed(0);
+		setSpeed(speed);
+		synchronizeMotors();
 		if (inverted) {
 			motor1.backward();
 			motor2.backward();
@@ -126,12 +127,14 @@ public class RobotPilot {
 			motor1.forward();
 			motor2.forward();
 		}
-		setSpeed(speed);
+		motor1.endSynchronization();
 		
 	}
 	
 	public void backward() {
 //		Starts backward movement of the robot
+		setSpeed(speed);
+		synchronizeMotors();
 		motor1.setSpeed(0);
 		motor2.setSpeed(0);
 		if (inverted) {
@@ -141,21 +144,25 @@ public class RobotPilot {
 			motor1.backward();
 			motor2.backward();
 		}
-		setSpeed(speed);
+		motor1.endSynchronization();
 		
 	}
 	
 	public void stop() {
 //		Stops the robot
+		synchronizeMotors();
 		motor1.stop(true);
 		motor2.stop(true);
+		motor1.endSynchronization();
 		while (isMoving()) {}
 	}
 	
 	public void stop(boolean immediateReturn) {
 //		Stops the robot
+		synchronizeMotors();
 		motor1.stop(true);
 		motor2.stop(true);
+		motor1.endSynchronization();
 		if (!immediateReturn) {
 			while (isMoving()) {}
 		}
@@ -163,15 +170,19 @@ public class RobotPilot {
 	
 	public void flt() {
 //		Floats the motors of the robot
+		synchronizeMotors();
 		motor1.flt(true);
 		motor2.flt(true);
+		motor1.endSynchronization();
 		while (isMoving()) {}
 	}
 	
 	public void flt(boolean immediateReturn) {
 //		Floats the motors of the robot
+		synchronizeMotors();
 		motor1.flt(true);
 		motor2.flt(true);
+		motor1.endSynchronization();
 		if (!immediateReturn) {
 			while (isMoving()) {}
 		}
@@ -312,16 +323,19 @@ public class RobotPilot {
 //		Sets the speed of the robot
 		if (this.speed != speed) {
 			this.speed = speed;
+			synchronizeMotors();
 			motor1.setSpeed(speed);
 			motor2.setSpeed(speed);
+			motor1.endSynchronization();
 		}
 	}
 	
 	public void startRotate(boolean right) {
 //		Starts a rotating motion
 //		If right is true, the robot will rotate right, otherwise he will rotate left
-		motor1.setSpeed(0);
-	    motor2.setSpeed(0);
+		motor1.setSpeed(rotateSpeed);
+		motor2.setSpeed(rotateSpeed);
+		synchronizeMotors();
 		if (right) {
 			if (inverted) {
 				motor1.backward();
@@ -339,8 +353,7 @@ public class RobotPilot {
 				motor2.forward();
 			}
 		}
-		motor1.setSpeed(rotateSpeed);
-		motor2.setSpeed(rotateSpeed);
+		motor1.endSynchronization();
 	}
 	
 	public float getMaxSpeed() {
@@ -354,8 +367,10 @@ public class RobotPilot {
 	public void setAcceleration(int acceleration) {
 //		Sets the Linear acceleration of the robot
 		this.acceleration = acceleration;
+		synchronizeMotors();
 		motor1.setAcceleration(acceleration);
 		motor2.setAcceleration(acceleration);
+		motor1.endSynchronization();
 	}
 	
 //  When using an EV3GyroSensor, it`s recommended to use a method like this, where pilot is RobotPilot and gyroSensor is EV3GyroSensor: 
@@ -385,12 +400,12 @@ public class RobotPilot {
 		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / (float) ((Math.PI * wheelDiameter) / 360)); 
 //		Rotate the motors
-		motor1.setSpeed(0);
-		motor2.setSpeed(0);
-		motor1.rotate((int) (degreesToTravel * friction), true);
-		motor2.rotate((int) (-degreesToTravel * friction), true);
+		synchronizeMotors();
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
+		motor1.rotate((int) (degreesToTravel * friction), true);
+		motor2.rotate((int) (-degreesToTravel * friction), true);
+		motor1.endSynchronization();
 		waitComplete();
 //		Set the speed of motors back to speed
 		setSpeed(speed);
@@ -404,12 +419,12 @@ public class RobotPilot {
 		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
-		motor1.setSpeed(0);
-		motor2.setSpeed(0);
-		motor1.rotate((int) (degreesToTravel * friction), true);
-		motor2.rotate((int) (-degreesToTravel * friction), true);
+		synchronizeMotors();
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
+		motor1.rotate((int) (degreesToTravel * friction), true);
+		motor2.rotate((int) (-degreesToTravel * friction), true);
+		motor1.endSynchronization();
 		waitComplete();
 		
 //		Set the speed of motors back to speed
@@ -425,12 +440,12 @@ public class RobotPilot {
 		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
-		motor1.setSpeed(0);
-		motor2.setSpeed(0);
-		motor1.rotate((int) (degreesToTravel * friction), true);
-		motor2.rotate((int) (-degreesToTravel * friction), true);
+		synchronizeMotors();
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
+		motor1.rotate((int) (degreesToTravel * friction), true);
+		motor2.rotate((int) (-degreesToTravel * friction), true);
+		motor1.endSynchronization();
 //		if immediate return is false, wait for the motors to complete rotations
 		if (!immediateReturn) {
 			waitComplete();
@@ -447,12 +462,12 @@ public class RobotPilot {
 		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
-		motor1.setSpeed(0);
-		motor2.setSpeed(0);
-		motor1.rotate((int) (degreesToTravel * friction), true);
-		motor2.rotate((int) (-degreesToTravel * friction), true);
+		synchronizeMotors();
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
+		motor1.rotate((int) (degreesToTravel * friction), true);
+		motor2.rotate((int) (-degreesToTravel * friction), true);
+		motor1.endSynchronization();
 //		if immediate return is false, wait for the motors to complete rotations
 		if (!immediateReturn) {
 			waitComplete();
@@ -597,7 +612,7 @@ public class RobotPilot {
 //		distance is the the distance the faster motor will travel
 //		TODO: make the travelArc method work
 		if (ratio > 1 || ratio < -1) {
-			throw new IllegalArgumentException("Invalid ratio");
+			throw new IllegalArgumentException("Invalid ratio, ratio must be between -1 and 1");
 		} else {
 			if (ratio == -1) {
 				int degreesToRotate = (int) (distance / ((float) ((Math.PI * wheelDiameter) / 360)));
@@ -643,15 +658,19 @@ public class RobotPilot {
 	}
 	
 	public void quickStop() {
+		synchronizeMotors();
 		motor1.setAcceleration(QUICK_ACCELERATION);
 		motor2.setAcceleration(QUICK_ACCELERATION);
+		motor1.endSynchronization();
 		stop();
 		setAcceleration(acceleration);
 	}
 	
 	public void quickStop(boolean immediateReturn) {
+		synchronizeMotors();
 		motor1.setAcceleration(QUICK_ACCELERATION);
 		motor2.setAcceleration(QUICK_ACCELERATION);
+		motor1.endSynchronization();
 		stop(immediateReturn);
 		setAcceleration(acceleration);
 	}
@@ -678,6 +697,11 @@ public class RobotPilot {
 		motor2.setAcceleration(QUICK_ACCELERATION);
 		stopRightMotor(immediateReturn);
 		setAcceleration(acceleration);
+	}
+	
+	private void synchronizeMotors() {
+		motor1.synchronizeWith(new RegulatedMotor[] {motor2});
+		motor1.startSynchronization();
 	}
 				
 }
