@@ -13,7 +13,7 @@ public class RobotPilot {
 	private float rotateSpeed = 25f;
 	private float speed;
 	private int acceleration = 0;
-	private int quickAcceleration = 9999;
+	public final int QUICK_ACCELERATION = 9999;
 	
 	public RobotPilot(Port leftMotor, Port rightMotor, float wheelDiameter, float chassisWidth){
 		this.motor1 = new EV3LargeRegulatedMotor(leftMotor);
@@ -616,25 +616,25 @@ public class RobotPilot {
 	}
 	
 	public void quickStopLeftMotor() {
-		motor1.setAcceleration(quickAcceleration);
+		motor1.setAcceleration(QUICK_ACCELERATION);
 		stopLeftMotor();
 		setAcceleration(acceleration);
 	}
 	
 	public void quickStopLeftMotor(boolean immediateReturn) {
-		motor1.setAcceleration(quickAcceleration);
+		motor1.setAcceleration(QUICK_ACCELERATION);
 		stopLeftMotor(immediateReturn);
 		setAcceleration(acceleration);
 	}
 	
 	public void quickStopRightMotor() {
-		motor2.setAcceleration(quickAcceleration);
+		motor2.setAcceleration(QUICK_ACCELERATION);
 		stopRightMotor();
 		setAcceleration(acceleration);
 	}
 	
 	public void quickStopRightMotor(boolean immediateReturn) {
-		motor2.setAcceleration(quickAcceleration);
+		motor2.setAcceleration(QUICK_ACCELERATION);
 		stopRightMotor(immediateReturn);
 		setAcceleration(acceleration);
 	}
