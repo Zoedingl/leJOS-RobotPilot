@@ -58,39 +58,51 @@ public class RobotPilot {
 
 	public void travel(float distance) {
 //		Makes a forward motion in units which where used when setting the wheelDiameter and the chassisWidth
+		motor1.setSpeed(0);
+	    motor2.setSpeed(0);
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360)); 
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
 		}
 		motor1.rotate((int) degreesToTravel, true);
 		motor2.rotate((int) degreesToTravel, true);
+		setSpeed(speed);
 		waitComplete();
 		
 	}
 	
 	public void travel(float distance, boolean immediateReturn) {
 //		Makes a forward motion in units which where used when setting the wheelDiameter and the chassisWidth
+		motor1.setSpeed(0);
+	    motor2.setSpeed(0);
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360)); 
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
 		}
 		motor1.rotate((int) degreesToTravel, true);
 		motor2.rotate((int) degreesToTravel, true);
+		setSpeed(speed);
 		if (!immediateReturn) {
 			waitComplete();
 		}
 		
 	}
 	
-	public void travelDegrees(int degrees) {
+	public void travelDegrees(int degrees) {motor1.setSpeed(0);
+	    motor1.setSpeed(0);
+	    motor2.setSpeed(0);
 		motor1.rotate(degrees, true);
 		motor2.rotate(degrees, true);
+		setSpeed(speed);
 		waitComplete();
 	}
 	
 	public void travelDegrees(int degrees, boolean immediateReturn) {
+		motor1.setSpeed(0);
+		motor2.setSpeed(0);
 		motor1.rotate(degrees, true);
 		motor2.rotate(degrees, true);
+		setSpeed(speed);
 		if (!immediateReturn) {
 			waitComplete();
 		}
@@ -98,11 +110,15 @@ public class RobotPilot {
 	
 	public void setRotateSpeed(float rotateSpeed) {
 //		Sets the speed the robot uses when rotating
-		this.rotateSpeed = rotateSpeed;
+		if (this.rotateSpeed != rotateSpeed) {
+			this.rotateSpeed = rotateSpeed;
+		}
 	}
 	
 	public void forward() {
 //		Starts forward movement of the robot
+		motor1.setSpeed(0);
+		motor2.setSpeed(0);
 		if (inverted) {
 			motor1.backward();
 			motor2.backward();
@@ -110,11 +126,14 @@ public class RobotPilot {
 			motor1.forward();
 			motor2.forward();
 		}
+		setSpeed(speed);
 		
 	}
 	
 	public void backward() {
 //		Starts backward movement of the robot
+		motor1.setSpeed(0);
+		motor2.setSpeed(0);
 		if (inverted) {
 			motor1.forward();
 			motor2.forward();
@@ -122,6 +141,7 @@ public class RobotPilot {
 			motor1.backward();
 			motor2.backward();
 		}
+		setSpeed(speed);
 		
 	}
 	
@@ -160,6 +180,7 @@ public class RobotPilot {
 	
 	public void moveLeftMotor(float distance) {
 //		Same as travel(distance) but only moves one motor
+		setSpeed(speed);
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360));
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -169,6 +190,7 @@ public class RobotPilot {
 	
 	public void moveLeftMotor(float distance, boolean immediateReturn) {
 //		Same as travel(distance) but only moves one motor
+		setSpeed(speed);
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360));
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -178,6 +200,7 @@ public class RobotPilot {
 	
 	public void moveRightMotor(float distance) {
 //		Same as travel(distance) but only moves one motor
+		setSpeed(speed);
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360));
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -187,6 +210,7 @@ public class RobotPilot {
 	
 	public void moveRightMotor(float distance, boolean immediateReturn) {
 //		Same as travel(distance) but only moves one motor
+		setSpeed(speed);
 		float degreesToTravel = distance / ((float) ((Math.PI * wheelDiameter) / 360));
 		if (inverted) {
 			degreesToTravel = -degreesToTravel;
@@ -196,6 +220,7 @@ public class RobotPilot {
 	
 	public void forwardLeftMotor() {
 //		Starts forward movement of the left motor
+		setSpeed(speed);
 		if (inverted) {
 			motor1.backward();
 		} else {
@@ -206,6 +231,7 @@ public class RobotPilot {
 	
 	public void backwardLeftMotor() {
 //		Starts backward movement of the left motor
+		setSpeed(speed);
 		if (!inverted) {
 			motor1.backward();
 		} else {
@@ -216,6 +242,7 @@ public class RobotPilot {
 	
 	public void forwardRightMotor() {
 //		Starts forward movement of the right motor
+		setSpeed(speed);
 		if (inverted) {
 			motor2.backward();
 		} else {
@@ -226,6 +253,7 @@ public class RobotPilot {
 	
 	public void backwardRightMotor() {
 //		Starts backward movement of the right motor
+		setSpeed(speed);
 		if (!inverted) {
 			motor2.backward();
 		} else {
@@ -282,16 +310,18 @@ public class RobotPilot {
 	
 	public void setSpeed(float speed) {
 //		Sets the speed of the robot
-		this.speed = speed;
-		motor1.setSpeed(speed);
-		motor2.setSpeed(speed);
+		if (this.speed != speed) {
+			this.speed = speed;
+			motor1.setSpeed(speed);
+			motor2.setSpeed(speed);
+		}
 	}
 	
 	public void startRotate(boolean right) {
 //		Starts a rotating motion
 //		If right is true, the robot will rotate right, otherwise he will rotate left
-		motor1.setSpeed(rotateSpeed);
-		motor2.setSpeed(rotateSpeed);
+		motor1.setSpeed(0);
+	    motor2.setSpeed(0);
 		if (right) {
 			if (inverted) {
 				motor1.backward();
@@ -309,7 +339,8 @@ public class RobotPilot {
 				motor2.forward();
 			}
 		}
-		setSpeed(speed);
+		motor1.setSpeed(rotateSpeed);
+		motor2.setSpeed(rotateSpeed);
 	}
 	
 	public float getMaxSpeed() {
@@ -349,15 +380,17 @@ public class RobotPilot {
 //		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the value the robot rotates.
 		float friction = 1;
 //		Set the speed of motors to rotateSpeed
-		motor1.setSpeed(rotateSpeed);
-		motor2.setSpeed(rotateSpeed);
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
 		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / (float) ((Math.PI * wheelDiameter) / 360)); 
 //		Rotate the motors
+		motor1.setSpeed(0);
+		motor2.setSpeed(0);
 		motor1.rotate((int) (degreesToTravel * friction), true);
 		motor2.rotate((int) (-degreesToTravel * friction), true);
+		motor1.setSpeed(rotateSpeed);
+		motor2.setSpeed(rotateSpeed);
 		waitComplete();
 //		Set the speed of motors back to speed
 		setSpeed(speed);
@@ -366,15 +399,17 @@ public class RobotPilot {
 	public void rotate(float angle, float friction) {
 //		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the value the robot rotates.
 //		Set the speed of motors to rotateSpeed
-		motor1.setSpeed(rotateSpeed);
-		motor2.setSpeed(rotateSpeed);
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
 		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
+		motor1.setSpeed(0);
+		motor2.setSpeed(0);
 		motor1.rotate((int) (degreesToTravel * friction), true);
 		motor2.rotate((int) (-degreesToTravel * friction), true);
+		motor1.setSpeed(rotateSpeed);
+		motor2.setSpeed(rotateSpeed);
 		waitComplete();
 		
 //		Set the speed of motors back to speed
@@ -385,15 +420,17 @@ public class RobotPilot {
 //		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the value the robot rotates.
 		float friction = 1;
 //		Set the speed of motors to rotateSpeed
-		motor1.setSpeed(rotateSpeed);
-		motor2.setSpeed(rotateSpeed);
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
 		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
+		motor1.setSpeed(0);
+		motor2.setSpeed(0);
 		motor1.rotate((int) (degreesToTravel * friction), true);
 		motor2.rotate((int) (-degreesToTravel * friction), true);
+		motor1.setSpeed(rotateSpeed);
+		motor2.setSpeed(rotateSpeed);
 //		if immediate return is false, wait for the motors to complete rotations
 		if (!immediateReturn) {
 			waitComplete();
@@ -405,15 +442,17 @@ public class RobotPilot {
 	public void rotate(float angle, float friction, boolean immediateReturn) {
 //		The friction value is 1 by default. You should change it depending on your robot`s friction when rotating. To find out the right value, just try and test until the robot turns the right angle. The higher the value, the higher the value the robot rotates.
 //		Set the speed of motors to rotateSpeed
-		motor1.setSpeed(rotateSpeed);
-		motor2.setSpeed(rotateSpeed);
 //		Perform calculations
 		double circleValue = chassisWidth * Math.PI; 
 		double distanceToTravel = circleValue / (360 / angle);
 		int degreesToTravel = (int) (distanceToTravel / ((float) ((Math.PI * wheelDiameter) / 360))); 
 //		Rotate the motors
+		motor1.setSpeed(0);
+		motor2.setSpeed(0);
 		motor1.rotate((int) (degreesToTravel * friction), true);
 		motor2.rotate((int) (-degreesToTravel * friction), true);
+		motor1.setSpeed(rotateSpeed);
+		motor2.setSpeed(rotateSpeed);
 //		if immediate return is false, wait for the motors to complete rotations
 		if (!immediateReturn) {
 			waitComplete();
@@ -448,21 +487,25 @@ public class RobotPilot {
 	
 	public void rotateLeftMotorTo(int angle) {
 //		Rotates the left motor to a specific angle
+		setSpeed(speed);
 		motor1.rotateTo(angle);
 	}
 	
 	public void rotateLeftMotorTo(int angle, boolean immediateReturn) {
 //		Rotates the left motor to a specific angle
+		setSpeed(speed);
 		motor1.rotateTo(angle, immediateReturn);
 	}
 	
 	public void rotateRightMotorTo(int angle) {
 //		Rotates the right motor to a specific angle
+		setSpeed(speed);
 		motor2.rotateTo(angle);
 	}
 	
 	public void rotateRightMotorTo(int angle, boolean immediateReturn) {
 //		Rotates the right motor to a specific angle
+		setSpeed(speed);
 		motor2.rotateTo(angle, immediateReturn);
 	}
 	
@@ -552,7 +595,7 @@ public class RobotPilot {
 //		if ratio is -1, the robot will rotate left on the spot, if ration is 1, the robot will rotate right on the spot, and if the ration is something between, the robot will arc forward with the given ratio
 //		if ration is 0, the robot will travel forward
 //		distance is the the distance the faster motor will travel
-//		TODO make the travelArc method work
+//		TODO: make the travelArc method work
 		if (ratio > 1 || ratio < -1) {
 			throw new IllegalArgumentException("Invalid ratio");
 		} else {
@@ -600,17 +643,15 @@ public class RobotPilot {
 	}
 	
 	public void quickStop() {
-		int quickAcceleration = 99999;
-		motor1.setAcceleration(quickAcceleration);
-		motor2.setAcceleration(quickAcceleration);
+		motor1.setAcceleration(QUICK_ACCELERATION);
+		motor2.setAcceleration(QUICK_ACCELERATION);
 		stop();
 		setAcceleration(acceleration);
 	}
 	
 	public void quickStop(boolean immediateReturn) {
-		int quickAcceleration = 99999;
-		motor1.setAcceleration(quickAcceleration);
-		motor2.setAcceleration(quickAcceleration);
+		motor1.setAcceleration(QUICK_ACCELERATION);
+		motor2.setAcceleration(QUICK_ACCELERATION);
 		stop(immediateReturn);
 		setAcceleration(acceleration);
 	}
