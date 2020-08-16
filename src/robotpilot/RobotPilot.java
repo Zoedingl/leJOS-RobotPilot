@@ -321,13 +321,12 @@ public class RobotPilot {
 	
 	public void setSpeed(float speed) {
 //		Sets the speed of the robot
-		if (this.speed != speed) {
 			this.speed = speed;
 			synchronizeMotors();
 			motor1.setSpeed(speed);
 			motor2.setSpeed(speed);
 			motor1.endSynchronization();
-		}
+		
 	}
 	
 	public void startRotate(boolean right) {
