@@ -657,19 +657,15 @@ public class RobotPilot {
 	}
 	
 	public void quickStop() {
-		synchronizeMotors();
 		motor1.setAcceleration(QUICK_ACCELERATION);
 		motor2.setAcceleration(QUICK_ACCELERATION);
-		motor1.endSynchronization();
 		stop();
 		setAcceleration(acceleration);
 	}
 	
 	public void quickStop(boolean immediateReturn) {
-		synchronizeMotors();
 		motor1.setAcceleration(QUICK_ACCELERATION);
 		motor2.setAcceleration(QUICK_ACCELERATION);
-		motor1.endSynchronization();
 		stop(immediateReturn);
 		setAcceleration(acceleration);
 	}
