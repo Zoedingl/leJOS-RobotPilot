@@ -492,11 +492,10 @@ public class RobotPilot {
 	
 	public void waitComplete() {
 //		Waits until the motors stop moving/rotating
-			motor1.waitComplete();
-			motor2.waitComplete();
-			if (motor1.isMoving()) {
-				motor1.waitComplete();
-			}
+		startSynchronization();
+		motor1.waitComplete();
+		motor2.waitComplete();
+		motor1.endSynchronization();
 	}
 	
 	public void rotateLeftMotorTo(int angle) {
