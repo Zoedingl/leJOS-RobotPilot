@@ -5,6 +5,7 @@ import lejos.hardware.port.Port;
 import lejos.robotics.RegulatedMotor;
 
 public class RobotPilot {
+	
 	private EV3LargeRegulatedMotor motor1;
 	private EV3LargeRegulatedMotor motor2;
 	private float wheelDiameter;
@@ -15,9 +16,9 @@ public class RobotPilot {
 	private int acceleration = 0;
 	public final int QUICK_ACCELERATION = 9999;
 	
-	public RobotPilot(Port leftMotor, Port rightMotor, float wheelDiameter, float chassisWidth){
-		this.motor1 = new EV3LargeRegulatedMotor(leftMotor);
-		this.motor2 = new EV3LargeRegulatedMotor(rightMotor);
+	public RobotPilot(Port leftMotorPort, Port rightMotorPort, float wheelDiameter, float chassisWidth){
+		this.motor1 = new EV3LargeRegulatedMotor(leftMotorPort);
+		this.motor2 = new EV3LargeRegulatedMotor(rightMotorPort);
 		motor1.setSpeed(motor1.getMaxSpeed());
 		motor2.setSpeed(motor2.getMaxSpeed());
 		this.wheelDiameter = wheelDiameter;
@@ -25,7 +26,7 @@ public class RobotPilot {
 	}
 
 	public RobotPilot(Port leftMotor, Port rightMotor, float wheelDiameter, float chassisWidth, boolean inverted) {
-//		Set inverted to true if your robot is moving backwards when traveling forward and vice versa
+//		Set inverted to true if your robot is moving backwards when travelling forward and vice versa
 		this.motor1 = new EV3LargeRegulatedMotor(leftMotor);
 		this.motor2 = new EV3LargeRegulatedMotor(rightMotor);
 		motor1.setSpeed(motor1.getMaxSpeed());
@@ -46,7 +47,7 @@ public class RobotPilot {
 	}
 	
 	public RobotPilot(EV3LargeRegulatedMotor leftMotor, EV3LargeRegulatedMotor rightMotor, float wheelDiameter, float chassisWidth, boolean inverted){
-//		Set inverted to true if your robot is moving backwards when traveling forward and vice versa
+//		Set inverted to true if your robot is moving backwards when travelling forward and vice versa
 		this.motor1 = leftMotor;
 		this.motor2 = rightMotor;
 		motor1.setSpeed(motor1.getMaxSpeed());
@@ -327,6 +328,22 @@ public class RobotPilot {
 			motor2.setSpeed(speed);
 			motor1.endSynchronization();
 		
+	}
+	
+	public void setLeftMotorSpeed(float speed) {
+		motor1.setSpeed(speed);
+	}
+	
+	public void setRightMotorSpeed(float speed) {
+		motor2.setSpeed(speed);
+	}
+	
+	public int getLeftMotorSpeed() {
+		return motor1.getSpeed();
+	}
+	
+	public int getRightMotorSpeed() {
+		return motor2.getSpeed();
 	}
 	
 	public void startRotate(boolean right) {
