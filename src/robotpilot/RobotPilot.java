@@ -90,8 +90,9 @@ public class RobotPilot {
 		
 	}
 	
-	public void travelDegrees(int degrees) {motor1.setSpeed(0);
-	setSpeed(speed);
+	public void travelDegrees(int degrees) {
+		stop();
+		setSpeed(speed);
 	    synchronizeMotors();
 		motor1.rotate(degrees, true);
 		motor2.rotate(degrees, true);
@@ -136,8 +137,6 @@ public class RobotPilot {
 //		Starts backward movement of the robot
 		setSpeed(speed);
 		synchronizeMotors();
-		motor1.setSpeed(0);
-		motor2.setSpeed(0);
 		if (inverted) {
 			motor1.forward();
 			motor2.forward();
@@ -322,7 +321,6 @@ public class RobotPilot {
 	
 	public void setSpeed(float speed) {
 //		Sets the speed of the robot
-		stop();
 		this.speed = speed;
 		synchronizeMotors();
 		motor1.setSpeed(speed);
@@ -350,8 +348,11 @@ public class RobotPilot {
 	public void startRotate(boolean right) {
 //		Starts a rotating motion
 //		If right is true, the robot will rotate right, otherwise he will rotate left
+		stop();
+		synchronizeMotors();
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
+		motor1.endSynchronization();
 		synchronizeMotors();
 		if (right) {
 			if (inverted) {
@@ -482,6 +483,8 @@ public class RobotPilot {
 		synchronizeMotors();
 		motor1.setSpeed(rotateSpeed);
 		motor2.setSpeed(rotateSpeed);
+		motor1.endSynchronization();
+		synchronizeMotors();
 		motor1.rotate((int) (degreesToTravel * friction), true);
 		motor2.rotate((int) (-degreesToTravel * friction), true);
 		motor1.endSynchronization();
@@ -675,15 +678,19 @@ public class RobotPilot {
 	}
 	
 	public void quickStop() {
+		synchronizeMotors();
 		motor1.setAcceleration(QUICK_ACCELERATION);
 		motor2.setAcceleration(QUICK_ACCELERATION);
+		motor1.endSynchronization();
 		stop();
 		setAcceleration(acceleration);
 	}
 	
 	public void quickStop(boolean immediateReturn) {
+		synchronizeMotors();
 		motor1.setAcceleration(QUICK_ACCELERATION);
 		motor2.setAcceleration(QUICK_ACCELERATION);
+		motor1.endSynchronization();
 		stop(immediateReturn);
 		setAcceleration(acceleration);
 	}
