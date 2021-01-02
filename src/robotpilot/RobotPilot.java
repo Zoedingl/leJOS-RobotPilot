@@ -322,11 +322,12 @@ public class RobotPilot {
 	
 	public void setSpeed(float speed) {
 //		Sets the speed of the robot
-			this.speed = speed;
-			synchronizeMotors();
-			motor1.setSpeed(speed);
-			motor2.setSpeed(speed);
-			motor1.endSynchronization();
+		stop();
+		this.speed = speed;
+		synchronizeMotors();
+		motor1.setSpeed(speed);
+		motor2.setSpeed(speed);
+		motor1.endSynchronization();
 		
 	}
 	
