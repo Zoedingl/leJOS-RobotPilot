@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ev3classes">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../../Program Files/leJOS EV3/lib/ev3/ev3classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
