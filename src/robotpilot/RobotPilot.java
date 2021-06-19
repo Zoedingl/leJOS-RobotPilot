@@ -385,16 +385,17 @@ public class RobotPilot {
         if (currentSpeed != speed) {
             setCurrentSpeed(speed);
         }
-        startSynchronization();
         if (inverted) {
+            startSynchronization();
             leftMotor.forward();
             rightMotor.forward();
+            endSynchronization();
         } else {
+            startSynchronization();
             leftMotor.backward();
             rightMotor.backward();
+            endSynchronization();
         }
-        endSynchronization();
-
     }
 
     /**
@@ -531,10 +532,9 @@ public class RobotPilot {
 //  Utility methods
 
     public void waitComplete() {
-        while (isMoving()) {
-            leftMotor.waitComplete();
-            rightMotor.waitComplete();
-        }
+        leftMotor.waitComplete();
+        rightMotor.waitComplete();
+        while (isMoving()) {}
     }
 
 //  Close
